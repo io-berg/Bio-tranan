@@ -1,0 +1,42 @@
+﻿@using MovieTheaterCore.Models
+
+@model HomeViewModel
+@{
+    ViewData["Title"] = "Biografen Tranan";
+}
+
+<div class="container">
+    <div class="container py-4 py-xl-5">
+        <div class="row mb-5">
+            <div class="col-md-8 col-xl-6 text-center mx-auto">
+                <h2>Schedule</h2>
+                <p class="w-lg-50"><br>Vi bjuder på film av det senaste utbudet och ibland temavisningar då <br>även
+                    äldre filmer kan göra comeback. Utbudet ska kunna tilltala olika <br>åldrar och smaker. Oftast visas
+                    en barnfilm på eftermiddagen och en film<br> för vuxna på kvällen.<br><br></p>
+            </div>
+        </div>
+        <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
+            @foreach (var view in Model.Viewings)
+            {
+                <div class="col">
+                    <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;"
+                        src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                        <div class="card-body p-4">
+                            <p class="text-primary card-text mb-0">@view.Salon.Name</p>
+                            <h4 class="card-title">@view.Movie.Title</h4>
+                            <div class="d-flex">
+                                <div>
+                                    <p class="fw-bold mb-0">@view.ViewingStart.ToString("m") @view.ViewingStart.ToString("t")</p>
+                                    <p class="text-muted mb-0"> Ticket Price: @view.TicketPrice</p>
+                                    <p class="text-muted mb-0"> Reserved seats: @view.ReservedSeats / @view.Salon.Seats  </p>
+                                        <a asp-area="" asp-controller="Details" asp-action="Index"
+                                        asp-route-id="@view.Id" class="btn btn-primary stretched-link">Details</a>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    
+            }
+</div>

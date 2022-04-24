@@ -1,0 +1,13 @@
+@model ReservationViewModel
+@{
+    ViewData["Title"] = "Thanks!";
+}
+
+<div class="container">
+    <h1>Thank you for your reservation!</h1>
+    <h2>Your reservationcode: @Model.ReservationCode</h2>
+    <h3>Seats booked: @Model.Seats</h3>
+    <br><br>
+    <h4>Movie: @Model.Viewing.Movie.Title</h4>
+    <h4>Date: @Model.Viewing.ViewingStart.ToString("m") @Model.Viewing.ViewingStart.ToString("t")</h4>
+</div>

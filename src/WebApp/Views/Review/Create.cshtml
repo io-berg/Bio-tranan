@@ -1,0 +1,18 @@
+@model CreateReviewViewModel
+
+<div class="container">
+    <h1>Movie: @Model.MovieTitle</h1>
+    <form asp-controller="Review" asp-action="Post" id="PostForm" method="Post">
+        <div class="form-group">
+            <label for="reservationCode">Name</label>
+            <input type="text" class="form-control" id="name-input" name="ReviewerName" placeholder="Enter name">
+            <label for="Score">Score: </label>
+            <input type="number" class="form-control form-range" id="Score" name="Score" min="1" max="5" />
+            <textarea form="PostForm" rows="3" class="form-control" id="review-input" name="ReviewContent"
+                placeholder="Enter review"></textarea>
+            <input type="hidden" name="MovieId" value="@Model.MovieId" />
+            <input type="hidden" name="ReservationCode" value="@Model.ReservationCode" />
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>

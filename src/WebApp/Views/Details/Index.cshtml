@@ -1,0 +1,110 @@
+@model DetailsViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container">
+    <form asp-controller="Reservation" asp-action="PostReservation" method="post" id="postform">
+        <div class="row border hover-shadow position-relative">
+            <div class="col-sm-2 cent">
+                <img src="@Model.Viewing.imgLink" alt="..." class="img-thumbnail">
+            </div>
+            <div class="col-sm-2">
+                <div id="details-showstart-container">
+                    <h2>@Model.Viewing.ViewingStart.ToString("m")</h2>
+                    <h5>@Model.Viewing.ViewingStart.ToString("t")</h5>
+                </div>
+            </div>
+            <div class="col-sm">
+                <h2>@Model.Viewing.Movie.Title</h2>
+                <p>Lang: @Model.Viewing.Movie.SpokenLanguage | Text: @Model.Viewing.Movie.TextLanguage <br>
+                    Duration: @Model.Viewing.Movie.Runtime min | Age rating: @Model.Viewing.Movie.AgeRating</p>
+                <h3>Description</h3>
+                <p>@Model.Viewing.Movie.Description</p>
+            </div>
+            <div class="col-sm">
+                <h2>@Model.Viewing.Salon.Name</h2>
+                <p>Ticket Price: @Model.Viewing.TicketPrice <br>
+                    Reserved seats: @Model.Viewing.ReservedSeats / @Model.Viewing.Salon.Seats</p>
+            </div>
+        </div>
+        <div class="row border hover-shadow position-relative">
+            <div class="col-sm-8">
+                <h3>Reviews:</h3>
+                @foreach (var review in Model.Reviews)
+                {
+                    <div clss="review-container">
+                        <h5>@review.ReviewerName</h5>
+                        <p>Score: @review.Score / 5 <br> @review.ReviewContent</p>
+                    </div>
+                    <br>
+                }
+            </div>
+            <div class="col-sm">
+                <!-- FORM INPUT -->
+                <input type="Hidden" value="@Model.Viewing.Id" name="MovieViewingId">
+                <input id="seatsToBuy" type="Number" placeholder="Seats" class="Form-controll" name="Seats" min="1"
+                    max="@Model.remainingSeats">
+                <!-- trigger modal -->
+                <button type="button" id="Make-Reservation-Btn" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#reservationModal">
+                    Make Reservation
+                </button> </br>
+                Price: <p id="totalPrice"></p>
+            </div>
+        </div>
+
+
+
+        <!-- Vertically centered modal -->
+        <div class="modal fade" id="reservationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="reservationModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="reservationModalLabel">Confim Reservation</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Movie: @Model.Viewing.Movie.Title</h4>
+                        <h4>Salon: @Model.Viewing.Salon.Name</h4>
+                        <h4>Time: @Model.Viewing.ViewingStart.ToString("m") @Model.Viewing.ViewingStart.ToString("t")
+                        </h4>
+                        <h4 id="Modal-seats-nr"></h4>
+                        <h4 id="modalTotalPrice">
+                            </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <input type="submit" value="Confirm Reservation" class="btn btn-primary"
+                            data-bs-dismiss="modal">
+                    </div>
+                </div>
+            </div>
+    </form>
+</div>
+
+<script>
+    let seats = document.querySelector("#seatsToBuy");
+    let price = document.querySelector("#totalPrice");
+    let modalPrice = document.querySelector("#modalTotalPrice");
+    let reservationBtn = document.querySelector("#Make-Reservation-Btn");
+
+    reservationBtn.addEventListener('click', () => {
+        document.querySelector("#Modal-seats-nr").innerHTML = "Seats: " + seats.value;
+    });
+
+    function setTotal() {
+        if (seats.value < 0) {
+            return;
+        }
+
+        price.innerHTML = seats.value * @Model.Viewing.TicketPrice;
+        price.textContent += " kr";
+        modalPrice.innerHTML = seats.value * @Model.Viewing.TicketPrice;
+        modalPrice.textContent += " kr";
+    }
+
+    seats.addEventListener("change", setTotal);
+    seats.addEventListener("onkeyup", setTotal);
+</script>

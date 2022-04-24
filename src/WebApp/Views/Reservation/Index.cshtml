@@ -1,0 +1,17 @@
+@{
+    ViewData["Title"] = "Reservations";
+}
+
+<div class="container">
+    <h1>Reservation</h1>
+    <br><br>
+    <h4>Please enter your reservation code to see info / cancell reservation</h4>
+    <br>
+    <form asp-controller="Reservation" asp-action="Info" method="post" id="postform">
+        <div class="form-group">
+            <label for="reservationCode">Reservation Code</label>
+            <input type="text" class="form-control" id="reservationCode" name="reservationCode"
+                placeholder="Enter reservation code">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
